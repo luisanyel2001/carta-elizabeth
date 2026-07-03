@@ -1,8 +1,8 @@
 // ========== CONFIG ==========
 const CORRECT_TOKEN = '43408b4793c109dbd9f3828f542d7a66';
 
-// Fecha objetivo: Lunes 13 Julio 2026
-const TARGET_DATE = new Date('2026-07-13T09:00:00-06:00'); // 9am hora CDMX (UTC-6)
+// Fecha objetivo: Domingo 12 Julio 2026, 9am CDMX (UTC-6)
+const TARGET_DATE = new Date('2026-07-12T09:00:00-06:00');
 
 // ========== LOGIN ==========
 const loginForm = document.getElementById('loginForm');
