@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌸 Para Elizabeth</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="login-container" id="loginContainer">
+    <div class="login-card">
+      <div class="lock-icon">🔐</div>
+      <h1>Carta Especial</h1>
+      <p class="login-subtitle">Ingresa el código para abrir tu carta ✨</p>
+      <form id="loginForm">
+        <input type="password" id="tokenInput" placeholder="••••••••" autocomplete="off" maxlength="32">
+        <button type="submit" id="loginBtn">Abrir carta 💌</button>
+      </form>
+      <p class="login-error" id="loginError">❌ Código incorrecto. Intenta de nuevo.</p>
+    </div>
+    <div class="floating-hearts">
+      <span>💗</span><span>💖</span><span>💕</span><span>💗</span><span>💖</span>
+    </div>
+  </div>
+
+  <div class="carta-container hidden" id="cartaContainer">
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-bg"></div>
+      <h1 class="title">Feliz Cumpleaños</h1>
+      <h2 class="subtitle">Elizabeth 💗</h2>
+      <p class="date">13 — 14 de Julio, 2026</p>
+    </header>
+
+    <!-- Contador -->
+    <section class="section countdown-section">
+      <h3>🕰️ Falta</h3>
+      <div class="countdown" id="countdown">
+        <div class="countdown-item"><span id="days">00</span><small>días</small></div>
+        <div class="countdown-item"><span id="hours">00</span><small>horas</small></div>
+        <div class="countdown-item"><span id="minutes">00</span><small>min</small></div>
+        <div class="countdown-item"><span id="seconds">00</span><small>seg</small></div>
+      </div>
+      <p class="countdown-label">para nuestra escapada a Tapalpa 🏔️</p>
+    </section>
+
+    <!-- Galería -->
+    <section class="section gallery-section">
+      <h3>📸 Nuestros Momentos</h3>
+      <div class="gallery" id="gallery">
+        <!-- Las fotos se cargan desde /imagenes/ -->
+      </div>
+    </section>
+
+    <!-- Carta -->
+    <section class="section letter-section">
+      <div class="letter">
+        <div class="letter-envelope">💌</div>
+        <h3>Para ti, Eli</h3>
+        <div class="letter-content">
+          <p>Hoy no es solo un día en el calendario.</p>
+          <p>Es el día en que el mundo se volvió un poquito más especial, porque llegaste tú.</p>
+          <p>Quise hacer algo diferente este año. Algo que capture todo lo que siento y no siempre sé decir con palabras.</p>
+          <p>Estos momentos juntos — los viajes, las risas, las pláticas hasta tarde, los silencios cómodos — son mi lugar favorito en el mundo.</p>
+          <p>Y pensar que apenas estamos empezando...</p>
+          <p>Te preparé una escapada a Tapalpa. Una cabañita en el bosque, el frío de la montaña, y todo el tiempo del mundo para nosotros solos.</p>
+          <p>Porque mereces un lugar donde el tiempo se detenga. Donde solo existas tú, yo, y este amor que crece cada día.</p>
+          <p class="letter-signature">
+            Con todo mi corazón,<br>
+            <strong>Luis</strong> 💗
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Música -->
+    <section class="section music-section">
+      <h3>🎵 Nuestra Canción</h3>
+      <div class="music-player">
+        <p class="music-label">Ariana Grande — we can't be friends (wait for your love)</p>
+        <div class="spotify-embed">
+          <iframe style="border-radius:12px" src="https://open.spotify.com/embed/track/46kspZSY3aKmwQe7O77fCC?utm_source=generator&theme=0" width="100%" height="80" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Itinerario -->
+    <section class="section itinerary-section">
+      <h3>🏔️ Nuestro Plan</h3>
+      <div class="itinerary">
+        <div class="day">
+          <h4>Domingo 12 — Fiesta Familiar 🎉</h4>
+          <ul>
+            <li>Comida con la familia</li>
+            <li>Pastel, decoración, risas</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h4>Lunes 13 — Tapalpa 🏡</h4>
+          <ul>
+            <li>🚗 9am — Salida de GDL</li>
+            <li>🏡 11am — Check-in Cabaña Luna del Bosque</li>
+            <li>🥘 1pm — Comida en el centro</li>
+            <li>🏔️ 3pm — Salto del Nogal 🐾</li>
+            <li>🧀 5pm — Queserías + centro</li>
+            <li>🌙 7pm — Regreso a cabaña 🎁</li>
+            <li>🍽️ 9pm — Cena romántica</li>
+          </ul>
+        </div>
+        <div class="day">
+          <h4>Martes 14 — Cumpleaños 🎂</h4>
+          <ul>
+            <li>🥞 9am — Desayuno en cabaña</li>
+            <li>🏞️ 10:30am — Ekopark o senderismo</li>
+            <li>🥘 1pm — Comida</li>
+            <li>🚗 3pm — Regreso a GDL</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cabaña -->
+    <section class="section cabin-section">
+      <h3>🌙 Cabaña Luna del Bosque</h3>
+      <div class="cabin-card">
+        <p>Una cabaña acogedora en medio del bosque de Tapalpa. Chimenea, vista a las estrellas, y el sonido del viento entre los pinos.</p>
+        <p class="cabin-detail">🏡 1 noche · 13-14 Julio · Tapalpa, Jalisco</p>
+      </div>
+    </section>
+
+    <!-- Final -->
+    <footer class="footer">
+      <div class="footer-hearts">
+        <span>💗</span><span>💖</span><span>💕</span>
+      </div>
+      <p>Hecho con amor, para ti.</p>
+      <p class="footer-small">13 de Julio de 2026 · Para Elizabeth 💗</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
