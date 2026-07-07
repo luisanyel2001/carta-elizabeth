@@ -42,6 +42,7 @@ function showCarta() {
   initParticles();
   loadGallery();
   startCountdown();
+  initActivityUnlock();
 }
 
 // ========== PARTICLES (hearts) ==========
@@ -241,11 +242,31 @@ function startCountdown() {
   setInterval(update, 1000);
 }
 
-// ========== SMOOTH SCROLL (optional) ==========
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-  anchor.addEventListener('click', function (e) {
-    e.preventDefault();
-    const target = document.querySelector(this.getAttribute('href'));
-    if (target) target.scrollIntoView({ behavior: 'smooth' });
-  });
-});
+// ========== ACTIVITY UNLOCK ==========
+// Desbloquea actividades 30 minutos antes de su hora (horario Tapalpa = UTC-6)
+function initActivityUnlock() {
+  const items = document.querySelectorAll('#itinerary li[data-time]');
+  if (!items.length) return;
+
+  // Inicializar estado locked
+  items.forEach(li => li.classList.add('locked'));
+
+  function checkUnlocks() {
+    const now = new Date();
+    items.forEach(li => {
+      const targetTime = new Date(li.dataset.time);
+      const unlockTime = new Date(targetTime.getTime() - 30 * 60 * 1000); // 30 min antes
+
+      if (now >= unlockTime && li.classList.contains('locked')) {
+        li.classList.remove('locked');
+        li.classList.add('unlocked', 'unlock-anim');
+        // Quitar animación después de que termine
+        setTimeout(() => li.classList.remove('unlock-anim'), 600);
+      }
+    });
+  }
+
+  // Check cada 30 segundos
+  checkUnlocks();
+  setInterval(checkUnlocks, 30000);
+}
