@@ -244,12 +244,16 @@ function startCountdown() {
 
 // ========== ACTIVITY UNLOCK ==========
 // Desbloquea actividades 30 minutos antes de su hora (horario Tapalpa = UTC-6)
+// El texto de la actividad NO está en el HTML — se inyecta solo al desbloquear
 function initActivityUnlock() {
   const items = document.querySelectorAll('#itinerary li[data-time]');
   if (!items.length) return;
 
-  // Inicializar estado locked
-  items.forEach(li => li.classList.add('locked'));
+  // Inicializar: ocultar completamente, sin texto visible
+  items.forEach(li => {
+    li.classList.add('locked');
+    // El span .activity-text está vacío en el HTML
+  });
 
   function checkUnlocks() {
     const now = new Date();
@@ -258,9 +262,13 @@ function initActivityUnlock() {
       const unlockTime = new Date(targetTime.getTime() - 30 * 60 * 1000); // 30 min antes
 
       if (now >= unlockTime && li.classList.contains('locked')) {
+        // Inyectar el texto de la actividad al desbloquear
+        const textSpan = li.querySelector('.activity-text');
+        if (textSpan && li.dataset.label) {
+          textSpan.textContent = li.dataset.label;
+        }
         li.classList.remove('locked');
         li.classList.add('unlocked', 'unlock-anim');
-        // Quitar animación después de que termine
         setTimeout(() => li.classList.remove('unlock-anim'), 600);
       }
     });
