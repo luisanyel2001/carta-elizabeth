@@ -244,37 +244,63 @@ function startCountdown() {
 
 // ========== ACTIVITY UNLOCK ==========
 // Desbloquea actividades 30 minutos antes de su hora (horario Tapalpa = UTC-6)
-// El texto de la actividad NO está en el HTML — se inyecta solo al desbloquear
-function initActivityUnlock() {
-  const items = document.querySelectorAll('#itinerary li[data-time]');
-  if (!items.length) return;
+// En el HTML solo hay candados 🔒 — el texto real se inyecta al desbloquear
 
-  // Inicializar: ocultar completamente, sin texto visible
-  items.forEach(li => {
-    li.classList.add('locked');
-    // El span .activity-text está vacío en el HTML
-  });
+// Mapa de actividades por día y posición
+const ACTIVITIES = {
+  'day-12': [
+    { time: '2026-07-12T09:00:00-06:00', label: '✅ 🚗 9am — Salida de GDL 🐾' },
+    { time: '2026-07-12T11:00:00-06:00', label: '✅ 🏡 11am — Check-in Cabaña Luna del Bosque' },
+    { time: '2026-07-12T13:00:00-06:00', label: '✅ 🥘 1pm — Comida en el centro (terraza pet friendly)' },
+    { time: '2026-07-12T15:00:00-06:00', label: '✅ 🏔️ 3pm — Salto del Nogal 🐾' },
+    { time: '2026-07-12T17:00:00-06:00', label: '✅ 🧀 5pm — Queserías artesanales + centro 🐾' },
+    { time: '2026-07-12T19:00:00-06:00', label: '✅ 🌙 7pm — Regreso a cabaña 🎁✨' },
+    { time: '2026-07-12T21:00:00-06:00', label: '✅ 🍽️ 9pm — Cena romántica' },
+  ],
+  'day-13': [
+    { time: '2026-07-13T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
+    { time: '2026-07-13T10:30:00-06:00', label: '✅ 🪨 10:30am — Valle de los Enigmas / Las Piedrotas 🐾' },
+    { time: '2026-07-13T13:00:00-06:00', label: '✅ 🥘 1pm — Comida' },
+    { time: '2026-07-13T15:00:00-06:00', label: '✅ 🌲 3pm — Ekopark Tapalpa 🐾' },
+    { time: '2026-07-13T19:00:00-06:00', label: '✅ 🌙 7pm — Regreso a cabaña' },
+    { time: '2026-07-13T21:00:00-06:00', label: '✅ 🔥 9pm — Fogata + estrellas' },
+  ],
+  'day-14': [
+    { time: '2026-07-14T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
+    { time: '2026-07-14T10:30:00-06:00', label: '✅ 👣 10:30am — Cerro La Cruz (mirador) 🐾' },
+    { time: '2026-07-14T13:00:00-06:00', label: '✅ 🥘 1pm — Comida de despedida' },
+    { time: '2026-07-14T15:00:00-06:00', label: '✅ 🚗 3pm — Regreso a GDL 🐾' },
+  ],
+};
+
+function initActivityUnlock() {
+  // La primera actividad (day-12, index 0) ya está desbloqueada en el HTML
 
   function checkUnlocks() {
     const now = new Date();
-    items.forEach(li => {
-      const targetTime = new Date(li.dataset.time);
-      const unlockTime = new Date(targetTime.getTime() - 30 * 60 * 1000); // 30 min antes
 
-      if (now >= unlockTime && li.classList.contains('locked')) {
-        // Inyectar el texto de la actividad al desbloquear
-        const textSpan = li.querySelector('.activity-text');
-        if (textSpan && li.dataset.label) {
-          textSpan.textContent = li.dataset.label;
+    Object.entries(ACTIVITIES).forEach(([dayId, activities]) => {
+      const ul = document.getElementById(dayId);
+      if (!ul) return;
+      const items = ul.querySelectorAll('li');
+
+      activities.forEach((act, idx) => {
+        const li = items[idx];
+        if (!li || !li.classList.contains('locked')) return;
+
+        const targetTime = new Date(act.time);
+        const unlockTime = new Date(targetTime.getTime() - 30 * 60 * 1000);
+
+        if (now >= unlockTime) {
+          li.classList.remove('locked');
+          li.classList.add('unlocked', 'unlock-anim');
+          li.textContent = act.label;
+          setTimeout(() => li.classList.remove('unlock-anim'), 600);
         }
-        li.classList.remove('locked');
-        li.classList.add('unlocked', 'unlock-anim');
-        setTimeout(() => li.classList.remove('unlock-anim'), 600);
-      }
+      });
     });
   }
 
-  // Check cada 30 segundos
   checkUnlocks();
   setInterval(checkUnlocks, 30000);
 }
