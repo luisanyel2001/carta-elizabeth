@@ -346,7 +346,7 @@ function initActivityUnlock() {
 
 // ========== SECRET UPLOAD ==========
 function initSecretUpload() {
-  const triggerBtn = document.getElementById('uploadTriggerBtn');
+  const title = document.getElementById('galleryTitle');
   const uploadArea = document.getElementById('uploadArea');
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
@@ -354,10 +354,10 @@ function initSecretUpload() {
   const uploadBtn = document.getElementById('uploadBtn');
   const uploadCancel = document.getElementById('uploadCancel');
 
-  if (!uploadArea || !triggerBtn) return;
+  if (!uploadArea || !title) return;
 
-  // --- Click en botón 📸 Subir foto ---
-  triggerBtn.addEventListener('click', () => {
+  // --- Click en el icono 📸 del título abre upload ---
+  title.addEventListener('click', () => {
     uploadArea.classList.remove('hidden');
     updateUploadedBadge();
   });
@@ -455,7 +455,7 @@ function initSecretUpload() {
           renderPreview();
           uploadArea.classList.add('hidden');
           updateUploadedBadge();
-          loadGallery();
+          loadGallery(); // Reload gallery to show new photos
         }
       };
       reader.readAsDataURL(file);
