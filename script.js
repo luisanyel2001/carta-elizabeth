@@ -214,24 +214,28 @@ function loadGallery() {
       gallery.appendChild(galleryImg);
     });
 
-    // Show placeholder if nothing at all
-    if (serverImages.length === 0 && saved.length === 0) {
-      showGalleryPlaceholder(gallery);
-    }
+    // Always show the camera button at the end
+    showCameraButton(gallery);
 
     updateUploadedBadge();
   }
 }
 
-function showGalleryPlaceholder(gallery) {
-  const placeholder = document.createElement('div');
-  placeholder.className = 'gallery-empty';
-  placeholder.innerHTML = `
-    <div class="gallery-icon">📸</div>
-    <p>Sube tus fotos a la carpeta <code>/imagenes/</code></p>
-    <p style="font-size:12px;margin-top:8px;color:#999">Nombres: foto-1.jpg, foto-2.jpg, etc.</p>
+function showCameraButton(gallery) {
+  const btn = document.createElement('div');
+  btn.className = 'gallery-camera-btn';
+  btn.innerHTML = `
+    <div class="camera-icon">📸</div>
+    <span>Agregar fotos</span>
   `;
-  gallery.appendChild(placeholder);
+  btn.addEventListener('click', () => {
+    const uploadArea = document.getElementById('uploadArea');
+    if (uploadArea) {
+      uploadArea.classList.remove('hidden');
+      updateUploadedBadge();
+    }
+  });
+  gallery.appendChild(btn);
 }
 
 // ========== LIGHTBOX ==========
@@ -349,9 +353,8 @@ function initActivityUnlock() {
   setInterval(checkUnlocks, 30000);
 }
 
-// ========== SECRET UPLOAD (5 clicks en título) ==========
+// ========== SECRET UPLOAD ==========
 function initSecretUpload() {
-  const title = document.getElementById('galleryTitle');
   const uploadArea = document.getElementById('uploadArea');
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
@@ -359,25 +362,7 @@ function initSecretUpload() {
   const uploadBtn = document.getElementById('uploadBtn');
   const uploadCancel = document.getElementById('uploadCancel');
 
-  if (!title) return;
-
-  let clickCount = 0;
-  let clickTimer = null;
-
-  // --- 5-click easter egg ---
-  title.addEventListener('click', () => {
-    clickCount++;
-    if (clickTimer) clearTimeout(clickTimer);
-    clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
-
-    if (clickCount >= 5) {
-      clickCount = 0;
-      uploadArea.classList.toggle('hidden');
-      if (!uploadArea.classList.contains('hidden')) {
-        updateUploadedBadge();
-      }
-    }
-  });
+  if (!uploadArea) return;
 
   // --- File selection via click ---
   dropzone.addEventListener('click', () => fileInput.click());

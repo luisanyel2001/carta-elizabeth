@@ -302,15 +302,6 @@ body {
   box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
-.gallery-empty {
-  text-align: center;
-  padding: 40px;
-  color: var(--text-light);
-  grid-column: 1 / -1;
-}
-
-.gallery-empty .gallery-icon { font-size: 48px; margin-bottom: 12px; }
-
 /* ========== LETTER ========== */
 .letter-section {
   text-align: center;
@@ -692,6 +683,37 @@ body {
   border-radius: 10px;
   margin-left: 8px;
   vertical-align: middle;
+}
+
+/* Botón de cámara para agregar fotos */
+.gallery-camera-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 250px;
+  border: 2px dashed var(--pink);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.3s, border-color 0.3s, transform 0.2s;
+  background: rgba(248,165,194,0.05);
+  color: var(--text-light);
+}
+
+.gallery-camera-btn:hover {
+  background: rgba(248,165,194,0.15);
+  border-color: var(--pink-dark);
+  transform: scale(1.02);
+}
+
+.gallery-camera-btn .camera-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.gallery-camera-btn span {
+  font-size: 13px;
+  font-weight: 500;
 }
 
 /* ========== RESPONSIVE ========== */
