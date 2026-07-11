@@ -704,20 +704,21 @@ body {
 .upload-trigger-btn {
   display: block;
   margin: 12px auto 0;
-  padding: 10px 24px;
+  padding: 12px 28px;
   background: linear-gradient(135deg, var(--pink-dark), var(--purple-dark));
   color: white;
   border: none;
   border-radius: 12px;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(232,67,147,0.25);
 }
 
 .upload-trigger-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(232,67,147,0.3);
+  box-shadow: 0 6px 20px rgba(232,67,147,0.4);
 }
 
 .upload-trigger-btn:active {
