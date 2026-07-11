@@ -409,10 +409,9 @@ function initSecretUpload() {
       reader.onload = (e) => {
         const div = document.createElement('div');
         div.className = 'preview-item';
-        div.dataset.pidx = idx;
         div.innerHTML = `
           <img src="${e.target.result}" alt="Preview">
-          <button class="remove-preview">×</button>
+          <button class="remove-preview" data-idx="${idx}">×</button>
         `;
         uploadPreview.appendChild(div);
       };
@@ -425,8 +424,7 @@ function initSecretUpload() {
   uploadPreview.addEventListener('click', (e) => {
     const btn = e.target.closest('.remove-preview');
     if (!btn) return;
-    const item = btn.closest('.preview-item');
-    const idx = parseInt(item.dataset.pidx);
+    const idx = parseInt(btn.dataset.idx);
     pendingFiles.splice(idx, 1);
     renderPreview();
   });
