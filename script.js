@@ -346,7 +346,7 @@ function initActivityUnlock() {
 
 // ========== SECRET UPLOAD ==========
 function initSecretUpload() {
-  const title = document.getElementById('galleryTitle');
+  const triggerBtn = document.getElementById('uploadTriggerBtn');
   const uploadArea = document.getElementById('uploadArea');
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
@@ -354,10 +354,10 @@ function initSecretUpload() {
   const uploadBtn = document.getElementById('uploadBtn');
   const uploadCancel = document.getElementById('uploadCancel');
 
-  if (!uploadArea || !title) return;
+  if (!uploadArea || !triggerBtn) return;
 
-  // --- Click en el icono 📸 del título abre upload ---
-  title.addEventListener('click', () => {
+  // --- Click en botón 📸 Subir foto ---
+  triggerBtn.addEventListener('click', () => {
     uploadArea.classList.remove('hidden');
     updateUploadedBadge();
   });
