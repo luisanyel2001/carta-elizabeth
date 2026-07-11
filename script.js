@@ -43,6 +43,7 @@ function showCarta() {
   loadGallery();
   startCountdown();
   initActivityUnlock();
+  initSecretUpload();
 }
 
 // ========== PARTICLES (hearts) ==========
@@ -116,66 +117,109 @@ function loadGallery() {
   const gallery = document.getElementById('gallery');
   if (!gallery) return;
 
+  // Clear gallery first
+  gallery.innerHTML = '';
+
   // Try to load images from /imagenes/ directory
   // We'll attempt up to 50 images
   const maxImages = 50;
   let loadedCount = 0;
-  const loadAttempts = [];
+  let serverImages = [];
 
-  for (let i = 1; i <= maxImages; i++) {
+  function tryLoadImage(i) {
     const ext = 'jpg';
     const img = new Image();
     const src = `imagenes/foto-${i}.${ext}`;
-    
+
     img.onload = () => {
-      const galleryImg = document.createElement('img');
-      galleryImg.src = src;
-      galleryImg.alt = `Momento ${i}`;
-      galleryImg.loading = 'lazy';
-      galleryImg.addEventListener('click', () => openLightbox(src));
-      gallery.appendChild(galleryImg);
+      serverImages.push({ src, order: i });
       loadedCount++;
+      checkDone();
     };
-    
+
     img.onerror = () => {
       // If jpg fails, try png
       const imgPng = new Image();
       const srcPng = `imagenes/foto-${i}.png`;
       imgPng.onload = () => {
-        const galleryImg = document.createElement('img');
-        galleryImg.src = srcPng;
-        galleryImg.alt = `Momento ${i}`;
-        galleryImg.loading = 'lazy';
-        galleryImg.addEventListener('click', () => openLightbox(srcPng));
-        gallery.appendChild(galleryImg);
+        serverImages.push({ src: srcPng, order: i });
         loadedCount++;
+        checkDone();
       };
       imgPng.onerror = () => {
         // Also try webp
         const imgWebp = new Image();
         const srcWebp = `imagenes/foto-${i}.webp`;
         imgWebp.onload = () => {
-          const galleryImg = document.createElement('img');
-          galleryImg.src = srcWebp;
-          galleryImg.alt = `Momento ${i}`;
-          galleryImg.loading = 'lazy';
-          galleryImg.addEventListener('click', () => openLightbox(srcWebp));
-          gallery.appendChild(galleryImg);
+          serverImages.push({ src: srcWebp, order: i });
           loadedCount++;
+          checkDone();
         };
         imgWebp.onerror = () => {
-          // No more images
-          if (loadedCount === 0 && i === 1) {
-            // Show placeholder
-            showGalleryPlaceholder(gallery);
-          }
+          checkDone();
         };
         imgWebp.src = srcWebp;
       };
       imgPng.src = srcPng;
     };
-    
+
     img.src = src;
+  }
+
+  function checkDone() {
+    // If we've attempted all images
+    if (loadedCount + (maxImages - serverImages.length) >= maxImages) {
+      renderAllImages();
+    }
+  }
+
+  // Start loading
+  for (let i = 1; i <= maxImages; i++) {
+    tryLoadImage(i);
+  }
+
+  // Fallback: if nothing loaded after 2s, still render
+  setTimeout(() => {
+    if (serverImages.length === 0) {
+      renderAllImages();
+    }
+  }, 2000);
+
+  function renderAllImages() {
+    // Sort server images by order
+    serverImages.sort((a, b) => a.order - b.order);
+
+    // Render server images
+    serverImages.forEach(item => {
+      const galleryImg = document.createElement('img');
+      galleryImg.src = item.src;
+      galleryImg.alt = `Momento ${item.order}`;
+      galleryImg.loading = 'lazy';
+      galleryImg.addEventListener('click', () => openLightbox(item.src));
+      gallery.appendChild(galleryImg);
+    });
+
+    // Render uploaded (localStorage) images
+    let saved = [];
+    try {
+      saved = JSON.parse(localStorage.getItem('carta_uploaded_photos') || '[]');
+    } catch { saved = []; }
+
+    saved.forEach(item => {
+      const galleryImg = document.createElement('img');
+      galleryImg.src = item.dataUrl;
+      galleryImg.alt = item.name || 'Foto agregada';
+      galleryImg.loading = 'lazy';
+      galleryImg.addEventListener('click', () => openLightbox(item.dataUrl));
+      gallery.appendChild(galleryImg);
+    });
+
+    // Show placeholder if nothing at all
+    if (serverImages.length === 0 && saved.length === 0) {
+      showGalleryPlaceholder(gallery);
+    }
+
+    updateUploadedBadge();
   }
 }
 
@@ -303,4 +347,163 @@ function initActivityUnlock() {
 
   checkUnlocks();
   setInterval(checkUnlocks, 30000);
+}
+
+// ========== SECRET UPLOAD (5 clicks en título) ==========
+function initSecretUpload() {
+  const title = document.getElementById('galleryTitle');
+  const uploadArea = document.getElementById('uploadArea');
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const uploadPreview = document.getElementById('uploadPreview');
+  const uploadBtn = document.getElementById('uploadBtn');
+  const uploadCancel = document.getElementById('uploadCancel');
+
+  if (!title) return;
+
+  let clickCount = 0;
+  let clickTimer = null;
+
+  // --- 5-click easter egg ---
+  title.addEventListener('click', () => {
+    clickCount++;
+    if (clickTimer) clearTimeout(clickTimer);
+    clickTimer = setTimeout(() => { clickCount = 0; }, 1500);
+
+    if (clickCount >= 5) {
+      clickCount = 0;
+      uploadArea.classList.toggle('hidden');
+      if (!uploadArea.classList.contains('hidden')) {
+        updateUploadedBadge();
+      }
+    }
+  });
+
+  // --- File selection via click ---
+  dropzone.addEventListener('click', () => fileInput.click());
+
+  // --- Drag & drop ---
+  dropzone.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    dropzone.classList.add('dragover');
+  });
+
+  dropzone.addEventListener('dragleave', () => {
+    dropzone.classList.remove('dragover');
+  });
+
+  dropzone.addEventListener('drop', (e) => {
+    e.preventDefault();
+    dropzone.classList.remove('dragover');
+    handleFiles(e.dataTransfer.files);
+  });
+
+  fileInput.addEventListener('change', () => {
+    handleFiles(fileInput.files);
+    fileInput.value = '';
+  });
+
+  // --- Preview management ---
+  let pendingFiles = [];
+
+  function handleFiles(files) {
+    for (const file of files) {
+      if (!file.type.startsWith('image/')) continue;
+      pendingFiles.push(file);
+    }
+    renderPreview();
+  }
+
+  function renderPreview() {
+    uploadPreview.innerHTML = '';
+    if (pendingFiles.length === 0) {
+      uploadBtn.disabled = true;
+      return;
+    }
+
+    pendingFiles.forEach((file, idx) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const div = document.createElement('div');
+        div.className = 'preview-item';
+        div.innerHTML = `
+          <img src="${e.target.result}" alt="Preview">
+          <button class="remove-preview" data-idx="${idx}">×</button>
+        `;
+        uploadPreview.appendChild(div);
+      };
+      reader.readAsDataURL(file);
+    });
+    uploadBtn.disabled = false;
+  }
+
+  // --- Remove individual preview ---
+  uploadPreview.addEventListener('click', (e) => {
+    const btn = e.target.closest('.remove-preview');
+    if (!btn) return;
+    const idx = parseInt(btn.dataset.idx);
+    pendingFiles.splice(idx, 1);
+    renderPreview();
+  });
+
+  // --- Upload (save to localStorage) ---
+  uploadBtn.addEventListener('click', () => {
+    if (pendingFiles.length === 0) return;
+
+    let saved = [];
+    try {
+      saved = JSON.parse(localStorage.getItem('carta_uploaded_photos') || '[]');
+    } catch { saved = []; }
+
+    let processed = 0;
+    pendingFiles.forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        saved.push({
+          id: Date.now() + '_' + Math.random().toString(36).slice(2, 8),
+          dataUrl: e.target.result,
+          name: file.name,
+          added: new Date().toISOString(),
+        });
+        processed++;
+        if (processed === pendingFiles.length) {
+          localStorage.setItem('carta_uploaded_photos', JSON.stringify(saved));
+          pendingFiles = [];
+          renderPreview();
+          uploadArea.classList.add('hidden');
+          updateUploadedBadge();
+          loadGallery(); // Reload gallery to show new photos
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  });
+
+  // --- Cancel ---
+  uploadCancel.addEventListener('click', () => {
+    pendingFiles = [];
+    renderPreview();
+    uploadArea.classList.add('hidden');
+  });
+}
+
+function updateUploadedBadge() {
+  const title = document.getElementById('galleryTitle');
+  if (!title) return;
+
+  // Remove existing badge
+  const oldBadge = title.querySelector('.uploaded-badge');
+  if (oldBadge) oldBadge.remove();
+
+  let saved = [];
+  try {
+    saved = JSON.parse(localStorage.getItem('carta_uploaded_photos') || '[]');
+  } catch { saved = []; }
+
+  if (saved.length > 0) {
+    const badge = document.createElement('span');
+    badge.className = 'uploaded-badge';
+    badge.textContent = `+${saved.length}`;
+    title.appendChild(badge);
+  }
 }
