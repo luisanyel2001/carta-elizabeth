@@ -685,35 +685,14 @@ body {
   vertical-align: middle;
 }
 
-/* Botón de cámara para agregar fotos */
-.gallery-camera-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 250px;
-  border: 2px dashed var(--pink);
-  border-radius: var(--radius);
+/* Título de galería clickeable */
+.gallery-title {
   cursor: pointer;
-  transition: background 0.3s, border-color 0.3s, transform 0.2s;
-  background: rgba(248,165,194,0.05);
-  color: var(--text-light);
+  user-select: none;
 }
 
-.gallery-camera-btn:hover {
-  background: rgba(248,165,194,0.15);
-  border-color: var(--pink-dark);
-  transform: scale(1.02);
-}
-
-.gallery-camera-btn .camera-icon {
-  font-size: 40px;
-  margin-bottom: 8px;
-}
-
-.gallery-camera-btn span {
-  font-size: 13px;
-  font-weight: 500;
+.gallery-title:hover {
+  opacity: 0.8;
 }
 
 /* ========== RESPONSIVE ========== */

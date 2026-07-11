@@ -214,28 +214,8 @@ function loadGallery() {
       gallery.appendChild(galleryImg);
     });
 
-    // Always show the camera button at the end
-    showCameraButton(gallery);
-
     updateUploadedBadge();
   }
-}
-
-function showCameraButton(gallery) {
-  const btn = document.createElement('div');
-  btn.className = 'gallery-camera-btn';
-  btn.innerHTML = `
-    <div class="camera-icon">📸</div>
-    <span>Agregar fotos</span>
-  `;
-  btn.addEventListener('click', () => {
-    const uploadArea = document.getElementById('uploadArea');
-    if (uploadArea) {
-      uploadArea.classList.remove('hidden');
-      updateUploadedBadge();
-    }
-  });
-  gallery.appendChild(btn);
 }
 
 // ========== LIGHTBOX ==========
@@ -355,6 +335,7 @@ function initActivityUnlock() {
 
 // ========== SECRET UPLOAD ==========
 function initSecretUpload() {
+  const title = document.getElementById('galleryTitle');
   const uploadArea = document.getElementById('uploadArea');
   const dropzone = document.getElementById('dropzone');
   const fileInput = document.getElementById('fileInput');
@@ -362,7 +343,13 @@ function initSecretUpload() {
   const uploadBtn = document.getElementById('uploadBtn');
   const uploadCancel = document.getElementById('uploadCancel');
 
-  if (!uploadArea) return;
+  if (!uploadArea || !title) return;
+
+  // --- Click en el icono 📸 del título abre upload ---
+  title.addEventListener('click', () => {
+    uploadArea.classList.remove('hidden');
+    updateUploadedBadge();
+  });
 
   // --- File selection via click ---
   dropzone.addEventListener('click', () => fileInput.click());
