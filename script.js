@@ -115,6 +115,7 @@ function initParticles() {
 // ========== GALLERY ==========
 function loadGallery() {
   const gallery = document.getElementById('gallery');
+  const gallerySection = document.getElementById('gallerySection');
   if (!gallery) return;
 
   // Clear gallery first
@@ -213,6 +214,16 @@ function loadGallery() {
       galleryImg.addEventListener('click', () => openLightbox(item.dataUrl));
       gallery.appendChild(galleryImg);
     });
+
+    // Show gallery section only if there are photos
+    const totalPhotos = serverImages.length + saved.length;
+    if (gallerySection) {
+      if (totalPhotos > 0) {
+        gallerySection.classList.remove('hidden');
+      } else {
+        gallerySection.classList.add('hidden');
+      }
+    }
 
     updateUploadedBadge();
   }

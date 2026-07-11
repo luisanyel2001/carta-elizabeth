@@ -58,25 +58,25 @@
     </section>
 
     <!-- Galería -->
-    <section class="section gallery-section">
-      <h3 id="galleryTitle" class="gallery-title">📸 Nuestros Momentos</h3>
+    <h3 id="galleryTitle" class="gallery-title">📸 Nuestros Momentos</h3>
+    <section class="section gallery-section hidden" id="gallerySection">
       <div class="gallery" id="gallery">
-        <!-- Las fotos se cargan desde /imagenes/ -->
-      </div>
-      <!-- Upload UI (oculto por defecto) -->
-      <div class="upload-area hidden" id="uploadArea">
-        <div class="upload-dropzone" id="dropzone">
-          <div class="upload-icon">📤</div>
-          <p>Arrastra fotos aquí o haz clic para seleccionar</p>
-          <input type="file" id="fileInput" accept="image/*" multiple hidden>
-        </div>
-        <div class="upload-preview" id="uploadPreview"></div>
-        <div class="upload-actions">
-          <button class="upload-btn" id="uploadBtn" disabled>✨ Agregar a la galería</button>
-          <button class="upload-cancel" id="uploadCancel">Cancelar</button>
-        </div>
+        <!-- Las fotos se cargan dinámicamente -->
       </div>
     </section>
+    <!-- Upload UI (oculto por defecto) -->
+    <div class="upload-area hidden" id="uploadArea">
+      <div class="upload-dropzone" id="dropzone">
+        <div class="upload-icon">📤</div>
+        <p>Arrastra fotos aquí o haz clic para seleccionar</p>
+        <input type="file" id="fileInput" accept="image/*" multiple hidden>
+      </div>
+      <div class="upload-preview" id="uploadPreview"></div>
+      <div class="upload-actions">
+        <button class="upload-btn" id="uploadBtn" disabled>✨ Agregar a la galería</button>
+        <button class="upload-cancel" id="uploadCancel">Cancelar</button>
+      </div>
+    </div>
 
     <!-- Carta -->
     <section class="section letter-section">
