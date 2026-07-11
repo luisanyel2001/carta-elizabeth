@@ -113,6 +113,8 @@ function initParticles() {
 }
 
 // ========== GALLERY ==========
+let _galleryLoaded = false;
+
 function loadGallery() {
   const gallery = document.getElementById('gallery');
   const gallerySection = document.getElementById('gallerySection');
@@ -120,6 +122,7 @@ function loadGallery() {
 
   // Clear gallery first
   gallery.innerHTML = '';
+  _galleryLoaded = false;
 
   // Try to load images from /imagenes/ directory
   // We'll attempt up to 50 images
@@ -168,8 +171,10 @@ function loadGallery() {
   }
 
   function checkDone() {
+    if (_galleryLoaded) return;
     // If we've attempted all images
     if (loadedCount + (maxImages - serverImages.length) >= maxImages) {
+      _galleryLoaded = true;
       renderAllImages();
     }
   }
@@ -181,7 +186,8 @@ function loadGallery() {
 
   // Fallback: if nothing loaded after 2s, still render
   setTimeout(() => {
-    if (serverImages.length === 0) {
+    if (!_galleryLoaded) {
+      _galleryLoaded = true;
       renderAllImages();
     }
   }, 2000);
