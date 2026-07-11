@@ -21,3 +21,4 @@ script.js        ← Lógica de login + animaciones
 ## 🚀 Deploy
 
 El sitio se despliega automáticamente con GitHub Pages desde `main`.
+# Deploy trigger Sat Jul 11 15:46:23 UTC 2026
