@@ -1,8 +1,8 @@
 // ========== CONFIG ==========
 const CORRECT_TOKEN = '43408b4793c109dbd9f3828f542d7a66';
 
-// Fecha objetivo: Domingo 12 Julio 2026, 9am CDMX (UTC-6)
-const TARGET_DATE = new Date('2026-07-12T09:00:00-06:00');
+// Fecha objetivo: Domingo 12 Julio 2026, 8am CDMX (UTC-6)
+const TARGET_DATE = new Date('2026-07-12T08:00:00-06:00');
 
 // Helper: hora actual siempre en CDMX/Tapalpa (UTC-6, sin DST)
 function getNowCDMX() {
