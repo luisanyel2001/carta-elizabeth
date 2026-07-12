@@ -135,39 +135,39 @@ function loadGallery() {
   // Try to load images from /imagenes/ directory
   // We'll attempt up to 50 images
   const maxImages = 50;
-  let loadedCount = 0;
+  let attempts = 0;
   let serverImages = [];
 
   function tryLoadImage(i) {
-    const ext = 'jpg';
     const img = new Image();
-    const src = `imagenes/foto-${i}.${ext}`;
+    const src = `imagenes/foto-${i}.jpg`;
 
     img.onload = () => {
       serverImages.push({ src, order: i });
-      loadedCount++;
+      attempts++;
       checkDone();
     };
 
     img.onerror = () => {
-      // If jpg fails, try png
+      // Try png
       const imgPng = new Image();
       const srcPng = `imagenes/foto-${i}.png`;
       imgPng.onload = () => {
         serverImages.push({ src: srcPng, order: i });
-        loadedCount++;
+        attempts++;
         checkDone();
       };
       imgPng.onerror = () => {
-        // Also try webp
+        // Try webp
         const imgWebp = new Image();
         const srcWebp = `imagenes/foto-${i}.webp`;
         imgWebp.onload = () => {
           serverImages.push({ src: srcWebp, order: i });
-          loadedCount++;
+          attempts++;
           checkDone();
         };
         imgWebp.onerror = () => {
+          attempts++;
           checkDone();
         };
         imgWebp.src = srcWebp;
@@ -180,8 +180,8 @@ function loadGallery() {
 
   function checkDone() {
     if (_galleryLoaded) return;
-    // If we've attempted all images
-    if (loadedCount + (maxImages - serverImages.length) >= maxImages) {
+    // All images have been attempted (either loaded or failed all formats)
+    if (attempts >= maxImages) {
       _galleryLoaded = true;
       renderAllImages();
     }
@@ -192,13 +192,13 @@ function loadGallery() {
     tryLoadImage(i);
   }
 
-  // Fallback: if nothing loaded after 2s, still render
+  // Fallback: if nothing loaded after 3s, still render
   setTimeout(() => {
     if (!_galleryLoaded) {
       _galleryLoaded = true;
       renderAllImages();
     }
-  }, 2000);
+  }, 3000);
 
   function renderAllImages() {
     // Sort server images by order
