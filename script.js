@@ -308,8 +308,8 @@ const ACTIVITIES = {
     { time: '2026-07-13T08:00:00-06:00', label: '✅ 🥞 8am — Desayuno en cabaña 🐾' },
     { time: '2026-07-13T09:30:00-06:00', label: '✅ 🏔️ 9:30am — Salto del Nogal 🐾' },
     { time: '2026-07-13T13:00:00-06:00', label: '✅ 🌙 1pm — Regreso a cabaña a descansar' },
-    { time: '2026-07-13T19:00:00-06:00', label: '✅ 🔭 7pm — Telescopio + estrellas ✨' },
-    { time: '2026-07-13T21:00:00-06:00', label: '✅ 🥩 9pm — Cena romántica: Arrachera con puré 🍷' },
+    { time: '2026-07-13T19:00:00-06:00', label: '✅ 🥩 7pm — Cena romántica 🍷' },
+    { time: '2026-07-13T21:00:00-06:00', label: '✅ ✨ 9pm — Ver las estrellas' },
     { time: '2026-07-13T22:30:00-06:00', label: '✅ 🎬 Película con proyector + ajedrez ♟️' },
   ],
   'day-14': [
