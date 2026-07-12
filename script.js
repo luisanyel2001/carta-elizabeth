@@ -310,8 +310,8 @@ const ACTIVITIES = {
     { time: '2026-07-13T13:00:00-06:00', label: '✅ 🌙 1pm — Regreso a cabaña a descansar' },
     { time: '2026-07-13T18:00:00-06:00', label: '✅ 🍳 6pm — Cocinar cena + hornear pastel 🎂' },
     { time: '2026-07-13T19:00:00-06:00', label: '✅ 🥩 7pm — Cena romántica 🍷' },
-    { time: '2026-07-13T21:00:00-06:00', label: '✅ ✨ 9pm — Ver las estrellas' },
-    { time: '2026-07-13T22:30:00-06:00', label: '✅ 🎂 10:30pm — Sorpresa de cumpleaños 🎉' },
+    { time: '2026-07-13T20:30:00-06:00', label: '✅ ✨ 8:30pm — Ver las estrellas' },
+    { time: '2026-07-13T22:00:00-06:00', label: '✅ 💗 10pm — 💗' },
   ],
   'day-14': [
     { time: '2026-07-14T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
