@@ -1,8 +1,8 @@
 // ========== CONFIG ==========
 const CORRECT_TOKEN = '43408b4793c109dbd9f3828f542d7a66';
 
-// Fecha objetivo: Domingo 12 Julio 2026, 8am CDMX (UTC-6)
-const TARGET_DATE = new Date('2026-07-12T08:00:00-06:00');
+// Fecha objetivo: Domingo 12 Julio 2026, 9am CDMX (UTC-6)
+const TARGET_DATE = new Date('2026-07-12T09:00:00-06:00');
 
 // Helper: hora actual siempre en CDMX/Tapalpa (UTC-6, sin DST)
 function getNowCDMX() {
@@ -302,31 +302,31 @@ function startCountdown() {
 // Mapa de actividades por día y posición
 const ACTIVITIES = {
   'day-12': [
-    { time: '2026-07-12T08:00:00-06:00', label: '✅ 🚗 8am — Salida de GDL 🐾' },
-    { time: '2026-07-12T09:30:00-06:00', label: '✅ 🥞 9:30am — Desayuno en Aura Restaurante (Koanze)' },
-    { time: '2026-07-12T11:00:00-06:00', label: '✅ 🪨 11am — Valle de los Enigmas / Las Piedrotas 🐾' },
-    { time: '2026-07-12T14:00:00-06:00', label: '✅ 🏡 2pm — Check-in Cabaña Luna del Bosque' },
-    { time: '2026-07-12T17:00:00-06:00', label: '✅ 🏘️ 5pm — Centro de Tapalpa 🐾' },
-    { time: '2026-07-12T19:00:00-06:00', label: '✅ 🍝 7pm — Cena: Spaghetti blanco con pollo' },
-    { time: '2026-07-12T21:00:00-06:00', label: '✅ ♟️ 9pm — Ajedrez junto a la chimenea' },
-    { time: '2026-07-12T21:30:00-06:00', label: '✅ 🔥 9:30pm — Fogata + estrellas' },
-    { time: '2026-07-12T22:30:00-06:00', label: '✅ 😴 10:30pm — Baño y a dormir' },
+    { time: '2026-07-12T09:00:00-06:00', label: '✅ 🚗 9am — Salida de GDL 🐾' },
+    { time: '2026-07-12T10:30:00-06:00', label: '✅ 🥞 10:30am — Desayuno en Aura Restaurante (Koanze)' },
+    { time: '2026-07-12T12:00:00-06:00', label: '✅ 🪨 12pm — Valle de los Enigmas / Las Piedrotas 🐾' },
+    { time: '2026-07-12T15:00:00-06:00', label: '✅ 🏡 3pm — Check-in La Toscana 1' },
+    { time: '2026-07-12T18:00:00-06:00', label: '✅ 🏘️ 6pm — Centro de Tapalpa 🐾' },
+    { time: '2026-07-12T20:00:00-06:00', label: '✅ 🍝 8pm — Cena: Spaghetti blanco con pollo' },
+    { time: '2026-07-12T22:00:00-06:00', label: '✅ ♟️ 10pm — Ajedrez junto a la chimenea' },
+    { time: '2026-07-12T22:30:00-06:00', label: '✅ 🔥 10:30pm — Fogata + estrellas' },
+    { time: '2026-07-12T23:30:00-06:00', label: '✅ 😴 11:30pm — Baño y a dormir' },
   ],
   'day-13': [
-    { time: '2026-07-13T08:00:00-06:00', label: '✅ 🥞 8am — Desayuno en cabaña 🐾' },
-    { time: '2026-07-13T09:30:00-06:00', label: '✅ 🏔️ 9:30am — Salto del Nogal 🐾' },
-    { time: '2026-07-13T13:00:00-06:00', label: '✅ 🌙 1pm — Regreso a cabaña a descansar' },
-    { time: '2026-07-13T18:00:00-06:00', label: '✅ 🍳 6pm — Cocinar cena + hornear pastel 🎂' },
-    { time: '2026-07-13T19:00:00-06:00', label: '✅ 🥩 7pm — Cena romántica 🍷' },
-    { time: '2026-07-13T20:30:00-06:00', label: '✅ ✨ 8:30pm — Ver las estrellas' },
-    { time: '2026-07-13T22:00:00-06:00', label: '✅ 💗 10pm — 💗' },
+    { time: '2026-07-13T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
+    { time: '2026-07-13T10:30:00-06:00', label: '✅ 🏔️ 10:30am — Salto del Nogal 🐾' },
+    { time: '2026-07-13T14:00:00-06:00', label: '✅ 🌙 2pm — Regreso a cabaña a descansar' },
+    { time: '2026-07-13T19:00:00-06:00', label: '✅ 🍳 7pm — Cocinar cena + hornear pastel 🎂' },
+    { time: '2026-07-13T20:00:00-06:00', label: '✅ 🥩 8pm — Cena romántica 🍷' },
+    { time: '2026-07-13T21:30:00-06:00', label: '✅ ✨ 9:30pm — Ver las estrellas' },
+    { time: '2026-07-13T23:00:00-06:00', label: '✅ 💗 11pm — 💗' },
   ],
   'day-14': [
-    { time: '2026-07-14T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
-    { time: '2026-07-14T10:00:00-06:00', label: '✅ 🧹 10am — Preparar salida' },
-    { time: '2026-07-14T11:00:00-06:00', label: '✅ 🚗 11am — Check-out' },
-    { time: '2026-07-14T13:30:00-06:00', label: '✅ 🏡 1:30pm — Llegada a GDL 🐾' },
-    { time: '2026-07-14T15:00:00-06:00', label: '✅ 🍽️ 3pm — Comer / cenar (por definir)' },
+    { time: '2026-07-14T10:00:00-06:00', label: '✅ 🥞 10am — Desayuno en cabaña 🐾' },
+    { time: '2026-07-14T11:00:00-06:00', label: '✅ 🧹 11am — Preparar salida' },
+    { time: '2026-07-14T12:00:00-06:00', label: '✅ 🚗 12pm — Check-out' },
+    { time: '2026-07-14T14:30:00-06:00', label: '✅ 🏡 2:30pm — Llegada a GDL 🐾' },
+    { time: '2026-07-14T16:00:00-06:00', label: '✅ 🍽️ 4pm — Comer / cenar (por definir)' },
   ],
 };
 
