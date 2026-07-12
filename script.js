@@ -317,9 +317,7 @@ const ACTIVITIES = {
     { time: '2026-07-14T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
     { time: '2026-07-14T10:00:00-06:00', label: '✅ 🧹 10am — Preparar salida' },
     { time: '2026-07-14T11:00:00-06:00', label: '✅ 🚗 11am — Check-out' },
-    { time: '2026-07-14T11:30:00-06:00', label: '✅ 👣 11:30am — Cerro La Cruz (mirador) 🐾' },
-    { time: '2026-07-14T13:00:00-06:00', label: '✅ 🥘 1pm — Comida de despedida' },
-    { time: '2026-07-14T15:00:00-06:00', label: '✅ 🚗 3pm — Regreso a GDL 🐾' },
+    { time: '2026-07-14T13:30:00-06:00', label: '✅ 🏡 1:30pm — Llegada a GDL 🐾' },
   ],
 };
 
