@@ -4,6 +4,14 @@ const CORRECT_TOKEN = '43408b4793c109dbd9f3828f542d7a66';
 // Fecha objetivo: Domingo 12 Julio 2026, 9am CDMX (UTC-6)
 const TARGET_DATE = new Date('2026-07-12T09:00:00-06:00');
 
+// Helper: hora actual siempre en CDMX/Tapalpa (UTC-6, sin DST)
+function getNowCDMX() {
+  const now = new Date();
+  // Convertir a UTC-6 fijo (CDMX sin horario de verano)
+  const utcMs = now.getTime() + now.getTimezoneOffset() * 60000;
+  return new Date(utcMs - 6 * 3600000);
+}
+
 // ========== LOGIN ==========
 const loginForm = document.getElementById('loginForm');
 const loginContainer = document.getElementById('loginContainer');
@@ -261,7 +269,7 @@ function startCountdown() {
   const secondsEl = document.getElementById('seconds');
 
   function update() {
-    const now = new Date();
+    const now = getNowCDMX();
     const diff = TARGET_DATE - now;
 
     if (diff <= 0) {
@@ -326,7 +334,7 @@ function initActivityUnlock() {
   // La primera actividad (day-12, index 0) ya está desbloqueada en el HTML
 
   function checkUnlocks() {
-    const now = new Date();
+    const now = getNowCDMX();
 
     Object.entries(ACTIVITIES).forEach(([dayId, activities]) => {
       const ul = document.getElementById(dayId);
