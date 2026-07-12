@@ -333,6 +333,17 @@ const ACTIVITIES = {
 function initActivityUnlock() {
   // La primera actividad (day-12, index 0) ya está desbloqueada en el HTML
 
+  function formatTimeLeft(ms) {
+    if (ms <= 0) return '🔓';
+    const totalSec = Math.floor(ms / 1000);
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    if (h > 0) return `${h}h ${m}m`;
+    if (m > 0) return `${m}m ${s}s`;
+    return `${s}s`;
+  }
+
   function checkUnlocks() {
     const now = getNowCDMX();
 
@@ -343,23 +354,33 @@ function initActivityUnlock() {
 
       activities.forEach((act, idx) => {
         const li = items[idx];
-        if (!li || !li.classList.contains('locked')) return;
+        if (!li) return;
 
         const targetTime = new Date(act.time);
         const unlockTime = new Date(targetTime.getTime() - 30 * 60 * 1000);
 
         if (now >= unlockTime) {
-          li.classList.remove('locked');
-          li.classList.add('unlocked', 'unlock-anim');
-          li.textContent = act.label;
-          setTimeout(() => li.classList.remove('unlock-anim'), 600);
+          // Desbloquear
+          if (li.classList.contains('locked')) {
+            li.classList.remove('locked');
+            li.classList.add('unlocked', 'unlock-anim');
+            li.textContent = act.label;
+            setTimeout(() => li.classList.remove('unlock-anim'), 600);
+          }
+        } else {
+          // Mostrar cuenta regresiva
+          const diff = unlockTime - now;
+          const timeStr = formatTimeLeft(diff);
+          if (li.classList.contains('locked')) {
+            li.textContent = `🔒 ${timeStr}`;
+          }
         }
       });
     });
   }
 
   checkUnlocks();
-  setInterval(checkUnlocks, 30000);
+  setInterval(checkUnlocks, 1000);
 }
 
 // ========== SECRET UPLOAD ==========
