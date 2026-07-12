@@ -300,7 +300,9 @@ const ACTIVITIES = {
     { time: '2026-07-12T14:00:00-06:00', label: '✅ 🏡 2pm — Check-in Cabaña Luna del Bosque' },
     { time: '2026-07-12T17:00:00-06:00', label: '✅ 🏘️ 5pm — Centro de Tapalpa 🐾' },
     { time: '2026-07-12T19:00:00-06:00', label: '✅ 🍝 7pm — Cena: Spaghetti blanco con pollo' },
-    { time: '2026-07-12T21:00:00-06:00', label: '✅ 🎬 9pm — Película con proyector + ajedrez ♟️' },
+    { time: '2026-07-12T21:00:00-06:00', label: '✅ ♟️ 9pm — Ajedrez junto a la chimenea' },
+    { time: '2026-07-12T21:30:00-06:00', label: '✅ 🔥 9:30pm — Fogata + estrellas' },
+    { time: '2026-07-12T22:30:00-06:00', label: '✅ 😴 10:30pm — Baño y a dormir' },
   ],
   'day-13': [
     { time: '2026-07-13T09:00:00-06:00', label: '✅ 🥞 9am — Desayuno en cabaña 🐾' },
